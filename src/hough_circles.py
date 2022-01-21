@@ -39,10 +39,6 @@ class HoughCircles:
         HoughCircles.vote(edgesAndGradients, accumulator)
         HoughCircles.threshold(accumulator, param2)
 
-        import cv2
-        cv2.imshow("gradientMagnitude", edgesAndGradients.gradientMagnitude)
-        cv2.waitKey(3000)
-
         return HoughCircles.accumulator2Circles(accumulator)
 
     @staticmethod

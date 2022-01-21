@@ -1,6 +1,6 @@
 import numpy as np
 from numba import njit
-from typing import Optional
+from typing import Optional, Callable
 
 
 class ImgProc:
@@ -67,14 +67,14 @@ class ImgProc:
         k1: int = kernel.shape[0] >> 1
         k2: int = kernel.shape[1] >> 1
 
-        isIndexInImgSpace = lambda i, j: (0 <= i < m) and (0 <= j < n)
+        isInImgSpace: Callable[[int, int], bool] = lambda i, j: (0 <= i < m) and (0 <= j < n)
 
         for i in range(m):
             for j in range(n):
                 value: float = 0.0
                 for u in range(-k1, k1 + 1):
                     for v in range(-k2, k2 + 1):
-                        if not isIndexInImgSpace(i + u, j + v):
+                        if not isInImgSpace(i + u, j + v):
                             # padding with zeros
                             continue
                         value += kernel[u + k1, v + k2] * image[i + u, j + v]
